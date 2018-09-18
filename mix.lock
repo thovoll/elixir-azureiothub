@@ -1,0 +1,5 @@
+%{
+  "eqc_ex": {:hex, :eqc_ex, "1.4.2", "c89322cf8fbd4f9ddcb18141fb162a871afd357c55c8c0198441ce95ffe2e105", [:mix], [], "hexpm"},
+  "gen_state_machine": {:hex, :gen_state_machine, "2.0.3", "477ea51b466a749ab23a0d6090e9e84073f41f9aa28c7efc40eac18f3d4a9f77", [:mix], [], "hexpm"},
+  "tortoise": {:hex, :tortoise, "0.9.2", "eafc62263db06b8abf3352cce305ea4b2d92f2a659e1fd23a6a7b3afd831350c", [:mix], [{:eqc_ex, "~> 1.4", [hex: :eqc_ex, repo: "hexpm", optional: false]}, {:gen_state_machine, "~> 2.0", [hex: :gen_state_machine, repo: "hexpm", optional: false]}], "hexpm"},
+}

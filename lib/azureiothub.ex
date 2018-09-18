@@ -1,18 +1,5 @@
-defmodule Azureiothub do
-  @moduledoc """
-  Documentation for Azureiothub.
-  """
+defmodule AzureIoTHub do
+  alias AzureIoTHub.Client
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Azureiothub.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  defdelegate connect(), to: Client
 end

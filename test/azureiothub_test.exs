@@ -1,8 +1,4 @@
-defmodule AzureiothubTest do
+defmodule AzureIoTHubTest do
   use ExUnit.Case
-  doctest Azureiothub
-
-  test "greets the world" do
-    assert Azureiothub.hello() == :world
-  end
+  doctest AzureIoTHub
 end
