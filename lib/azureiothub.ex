@@ -1,5 +1,5 @@
 defmodule AzureIoTHub do
   alias AzureIoTHub.Client
 
-  defdelegate connect(), to: Client
+  defdelegate connect_and_publish(), to: Client
 end

@@ -11,6 +11,12 @@ use Mix.Config
 # You can configure your application as:
 #
 #     config :azureiothub, key: :value
+config :azureiothub, iot_hub_host_name: ""
+config :azureiothub, iot_hub_host_port: 0
+config :azureiothub, device_id: ""
+config :azureiothub, signature_string: ""
+config :azureiothub, expiry: ""
+
 #
 # and access this configuration in your application as:
 #
@@ -27,4 +33,4 @@ use Mix.Config
 # Configuration from the imported file will override the ones defined
 # here (which is why it is important to import them last).
 #
-#     import_config "#{Mix.env()}.exs"
+import_config "#{Mix.env()}.exs"
