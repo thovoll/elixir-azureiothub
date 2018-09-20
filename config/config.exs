@@ -11,8 +11,8 @@ use Mix.Config
 # You can configure your application as:
 #
 #     config :azureiothub, key: :value
-config :azureiothub, iot_hub_host_name: ""
-config :azureiothub, iot_hub_host_port: 0
+config :azureiothub, iot_hub_host: ""
+config :azureiothub, iot_hub_port: 0
 config :azureiothub, device_id: ""
 config :azureiothub, device_key: ""
 

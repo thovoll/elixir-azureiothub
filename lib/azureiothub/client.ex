@@ -1,12 +1,12 @@
 defmodule AzureIoTHub.Client do
   def connect_and_publish() do
-    iot_hub_host_name = config(:iot_hub_host_name)
-    iot_hub_host_port = config(:iot_hub_host_port)
+    host = config(:iot_hub_host)
+    port = config(:iot_hub_port)
     device_id = config(:device_id)
     device_key = config(:device_key)
     ttl_in_sec = 86400 # 1 day
 
-    IO.puts("Connecting to #{iot_hub_host_name}:#{iot_hub_host_port} using device ID '#{device_id}'...")
+    IO.puts("Connecting to #{host}:#{port} using device ID '#{device_id}'...")
 
     result = Tortoise.Supervisor.start_child(
       client_id: device_id,
@@ -14,11 +14,11 @@ defmodule AzureIoTHub.Client do
       server: {
         Tortoise.Transport.SSL, 
         verify: :verify_none,
-        host: iot_hub_host_name, 
-        port: iot_hub_host_port
+        host: host, 
+        port: port
       },
-      user_name: device_user_name(iot_hub_host_name, device_id),
-      password: device_password(iot_hub_host_name, device_id, device_key, ttl_in_sec),
+      user_name: device_user_name(host, device_id),
+      password: device_password(host, device_id, device_key, ttl_in_sec),
       subscriptions: []
     ) 
 
@@ -37,20 +37,20 @@ defmodule AzureIoTHub.Client do
     Application.get_env(:azureiothub, key)
   end
 
-  defp device_user_name(host_name, device_id) do
-    "#{host_name}/#{device_id}/api-version=2016-11-14"
+  defp device_user_name(host, device_id) do
+    "#{host}/#{device_id}/api-version=2016-11-14"
   end
 
-  defp device_password(host_name, device_id, device_key, ttl_in_sec) do
-    encoded_uri = "#{host_name}/devices/#{device_id}" |> URI.encode_www_form 
+  defp device_password(host, device_id, device_key, ttl_in_sec) do
+    encoded_uri = "#{host}/devices/#{device_id}" |> URI.encode_www_form
     expiry = System.system_time(:second) + ttl_in_sec
     plain_text = "#{encoded_uri}\n#{expiry}"
 
-    decoded_key = device_key |> Base.decode64! 
-    signature = :crypto.hmac(:sha256, decoded_key, plain_text) |> Base.encode64
+    decoded_key = device_key |> Base.decode64!
+    sig = :crypto.hmac(:sha256, decoded_key, plain_text) |> Base.encode64
 
-    encoded_signature = signature |> URI.encode_www_form
-    "SharedAccessSignature sig=#{encoded_signature}&se=#{expiry}&sr=#{encoded_uri}"
+    encoded_sig = sig |> URI.encode_www_form
+    "SharedAccessSignature sig=#{encoded_sig}&se=#{expiry}&sr=#{encoded_uri}"
   end
 
   defp events_topic(device_id) do
