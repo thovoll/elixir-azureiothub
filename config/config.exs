@@ -14,8 +14,7 @@ use Mix.Config
 config :azureiothub, iot_hub_host_name: ""
 config :azureiothub, iot_hub_host_port: 0
 config :azureiothub, device_id: ""
-config :azureiothub, signature_string: ""
-config :azureiothub, expiry: ""
+config :azureiothub, device_key: ""
 
 #
 # and access this configuration in your application as:
