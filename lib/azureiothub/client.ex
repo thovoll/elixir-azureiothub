@@ -42,17 +42,15 @@ defmodule AzureIoTHub.Client do
   end
 
   defp device_password(host_name, device_id, device_key, ttl_in_sec) do
-    uri = "#{host_name}/devices/#{device_id}" |> URI.encode_www_form 
+    encoded_uri = "#{host_name}/devices/#{device_id}" |> URI.encode_www_form 
     expiry = System.system_time(:second) + ttl_in_sec
-    plain_text = "#{uri}\n#{expiry}"
-    decoded_device_key = device_key |> Base.decode64! 
+    plain_text = "#{encoded_uri}\n#{expiry}"
 
-    signature = 
-      :crypto.hmac(:sha256, decoded_device_key, plain_text)
-      |> Base.encode64
-      |> URI.encode_www_form
+    decoded_key = device_key |> Base.decode64! 
+    signature = :crypto.hmac(:sha256, decoded_key, plain_text) |> Base.encode64
 
-    "SharedAccessSignature sig=#{signature}&se=#{expiry}&sr=#{uri}"
+    encoded_signature = signature |> URI.encode_www_form
+    "SharedAccessSignature sig=#{encoded_signature}&se=#{expiry}&sr=#{encoded_uri}"
   end
 
   defp events_topic(device_id) do
